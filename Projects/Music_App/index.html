@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html id="Music">
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+    	<script type="text/javascript" src="../common/get_key_with_callback.js"></script>
+		<link rel="stylesheet" type="text/css" href="music.css">
+		<link rel="shortcut icon" href="aveclogo.png">
+		<title>Music On A Schedule</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<ul class="navbar" id="navbar-about" onmousedown='return false;'>
+					<li><a href="/" id="home"><div>Home</div></a></li>
+					<li><a href="/Projects"><div>Projects</div></a></li>
+					<li><a href="/AboutMe"><div>About Me</div></a></li>
+				</ul>
+			</div>
+
+			<div id="content">
+				<h1 id="title">Music On A Schedule</h1>
+				<h2 id="app_description">This application uses Echo Nest and Spotify API's to compute the perfect playlist in the perfect amount of time. Only have 15 minutes to listen to music? Need to time a task? Just enter the amount of time you have, and a playlist of about that length of time will be made for you!</h2>
+
+				<div id='time_input'>
+					<span class='box'>Amount of time (minutes): 
+            			<input title="Time" type="text" id="time" name="time" value=''/>
+        			</span>
+        			<button value="go" id="go" name="go" onClick="askForStyle()">Next</button>
+				</div>
+
+				<div id='style_input' hidden>
+					<p id="style_instructions">Please choose the type of playlist you want:</p>
+					<div id="style_list">
+						<div class="style_option" unselectable='on' onmousedown="return false;" onClick="getPlaylist('indie rock')">Indie</div>
+						<div class="style_option" unselectable='on' onmousedown="return false;" onClick="getPlaylist('pop')">Pop</div>
+						<div class="style_option" unselectable='on' onmousedown="return false;" onClick="getPlaylist('jazz blues')">Jazz</div>
+						<div class="style_option" unselectable='on' onmousedown="return false;" onClick="getPlaylist('pop rap')">Rap/Hip Hop</div>
+						<div class="style_option" unselectable='on' onmousedown="return false;" onClick="getPlaylist('indietronica')">Indie Electronica</div>
+					</div>
+				</div>
+
+				<div id="playlist_container" hidden>
+					<div id="playlist_info">Style: <p id="style_info"></p><br><br>Time: <div id="timer"></div> minutes</div>
+					<div id="info"> </div>
+					<div id="all_results">
+        				<div id='tracks'>
+            			<!---<h2> The Playlist</h2>-->
+            			<div id="results"> </div>
+        			</div>
+    			</div>
+				</div>
+			<div id="footer">&copy; 2014 Walker Kennedy | <a href="mailto:walker@walker-kennedy.com">Contact Me</a></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var time;
+		var style;
+		jQuery.ajaxSettings.traditional = true; 
+		var host = 'http://developer.echonest.com/'
+		var apiKey = 'XAALR6UCT5BCKTSWF';
+		var embed = '<iframe src="https://embed.spotify.com/?uri=spotify:trackset:PREFEREDTITLE:TRACKS&view=coverart" style="width:640px; height:520px;" frameborder="0" allowtransparency="true"></iframe>';
+
+
+
+		function askForStyle() {
+			if ($("#time").val() == "" || isNaN($("#time").val())) {
+				alert("Please enter in a number of minutes");
+			} else {
+				time = $("#time").val();
+				$("#time_input").hide();
+				$("#style_input").show();
+			}
+		}
+
+		function getPlaylist(input_style) {
+			style = input_style;
+			
+			$("#style_info").text(style);
+			$("#timer").text(time);
+
+			var time_in_seconds = time * 60;
+
+			$("#style_input").hide();
+			$("#playlist_container").show();
+
+
+			var url = host + 'api/v4/playlist/static?api_key='  + apiKey;
+			var genre = style;
+			var results = getResultNumber(time_in_seconds);
+			var max_duration = getMaxDuration(time_in_seconds, results);
+			var min_duration = max_duration - 5;
+			
+
+
+    		$("#all_results").hide();
+   	 		info("Creating the playlist ...");
+    		$.getJSON(url, { 'genre': genre, 'format':'json', 
+            	'bucket': [ 'id:spotify-WW', 'tracks'], 'limit' : true, 
+            	'dmca' : true,
+            	'max_duration' : max_duration,
+            	'min_duration' : min_duration,
+            	'results': results, 'type':'genre-radio'  }, 
+            	function(data) {
+                	info("");
+                	$("#results").empty();
+                	if (! ('songs' in data.response)) {
+                    	info("Can't find that genre");
+                	} else {
+                    	history.replaceState({}, document.title, '?genre=' + genre);
+                    	info();
+                    	$("#all_results").show();
+                    	var tracks = "";
+                    	for (var i = 0; i < data.response.songs.length; i++) {
+                        	var song = data.response.songs[i];
+                        	var tid = song.tracks[0].foreign_id.replace('spotify:track:', '');
+                        	tracks = tracks + tid + ',';
+                    	}
+                    	var tembed = embed.replace('TRACKS', tracks);
+                    	tembed = tembed.replace('PREFEREDTITLE', genre + ' playlist');
+                    	var li = $("<span>").html(tembed);
+                    	$("#results").append(li);
+                	}
+            	}).error( 
+                	function() { 
+                    	info("Sorry, trouble making a playlist for the genre " + genre);
+            	} );
+
+		}
+
+		function getMaxDuration(Time, number_of_songs) {
+			var max_duration = Time/number_of_songs;
+			return max_duration;
+		}
+
+		function getResultNumber(Time) {
+			var results;
+			if (Time <= 240) {
+				results = 1;
+			} else if (Time > 240 && Time <= 600) {
+				results = 4;
+			} else if (Time > 600 && Time <= 900) {
+				results = 5;
+			} else if (Time > 900 && Time <= 1200) {
+				results = 7;
+			} else if (Time > 1200 && Time <= 1500) {
+				results = 9;
+			} else if (Time > 1500 && Time <= 1800) {
+				results = 10;
+			} else if (Time > 1800 && Time <= 2700) {
+				results = 12;
+			} else if (Time > 2700 && Time <= 3600) {
+				results = 14;
+			} else if (Time > 3600 && Time <= 4500){
+				results = 16;
+			} else if (Time > 4500 && Time <= 7200) {
+				results = 18;
+			} else {
+				results = 23;
+			}
+
+			return results;
+		}
+
+		function info(txt) {
+    		$("#info").text(txt);
+		}
+
+		
+
+
+
+	</script>
+</html>

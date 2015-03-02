@@ -1,0 +1,179 @@
+*{margin:0;padding:0; height:100%;}
+
+#Projects {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.8);
+    background-position: center;
+    height: 100%;
+    background-attachment: fixed;
+}
+
+#wrapper {
+    min-height:100%;
+    position:relative; 
+    display: table; 
+    width:100%
+}
+
+#header {
+    width:100%;
+    height:auto;
+    margin-top: 0;
+    display: table-row;
+}
+
+.navbar {
+    width: 100%;
+    height: 41px;
+    float: left;
+    margin: 0;
+    padding: 0px;
+    list-style: none;
+    border-bottom: 1px solid #ccc; 
+    border-top: 1px solid #ccc;
+}
+
+.navbar li {
+    background-color: rgb(0, 107, 178);
+    background-color: rgba(0, 107, 178, 0.8);
+    float: left;
+    width: 33.3333%;
+}
+
+.navbar li:hover {
+    background-color: rgb(0, 67, 138);
+    background-color: rgba(0, 67, 138, 0.8);
+}
+
+.navbar li a {
+    display: block;
+    height: 100%;
+    padding: 0px 0px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    text-shadow: 4px 2px 1px black;
+    text-align: center;
+    font-size: 20px;
+    border-right: 1px solid #ccc; 
+}
+
+.navbar li a:active {
+    text-shadow: 0px 0px 0px black;
+}
+
+.navbar li a div {
+    padding-top: 7px;
+}
+
+#home {
+    border-left: 1px solid #ccc;
+}
+
+#content {
+    width: 100%;
+    display: table-row;
+    height: 100%;
+}
+
+#ProjectTitle {
+    width: 100%;
+    height: 80px;
+    color: white;
+    text-align: center;
+    font-weight: normal;
+    font-family: Courier, Times;
+    font-size: 70px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    white-space: nowrap;
+}
+
+#project_gallery {
+    width: 980px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.link_box {
+    text-decoration: none;
+}
+
+.project_container {
+    width: 400px;
+    height: 500px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
+    margin-bottom: 30px;
+}
+
+.project_container_title {
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    color: white;
+    font-weight: normal;
+    font-family: Courier, Times;
+    font-size: 30px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.project_photo_container {
+    margin-left: 10%;
+    width: 80%;
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+}
+
+#project1 {
+    background-image: url("drumpic.png");
+}
+
+#project2 {
+    background-image: url("aveclogo.png");
+}
+
+#project3 {
+    background-image: url("website_pic.png");
+}
+
+#project4 {
+    background-image: url("beach.png");
+}
+
+#project5 {
+    background-image: url("james_brown.png");
+}
+
+#project6 {
+    background-image: url("aveclogoblog.png");
+}
+
+#project7 {
+    background-image: url("MusicAppPic.png");
+}
+
+.link_box:hover > .project_container {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#footer {
+    width:100%;
+    height:auto;
+    position:absolute;
+    margin-top: 0;
+    margin-bottom: 0;
+    bottom:0;
+    left:0; 
+    text-align: center;
+    display: table-row;
+    color: white;
+}
+#footer a {
+    color: white;
+}

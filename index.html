@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html id="homepage">
+	<head>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+		<link rel="shortcut icon" href="aveclogo.png">
+		<title>Walker Kennedy</title>
+	</head>
+	<body>
+		<div id="background"></div>
+			<ul class="navbar" onmousedown='return false;'>
+				<li><a href="/" id="home"><div>Home</div></a></li>
+				<li><a href="/Projects"><div>Projects</div></a></li>
+				<li><a href="/AboutMe"><div>About Me</div></a></li>
+			</ul>
+		
+		<h1 class="welcome" id="welcomestart" unselectable='on' onmousedown='return false;'>Welcome to the home page</h1>
+		<h1 class="welcome" id="of" unselectable='on' onmousedown='return false;'>of</h1>
+		<h1 class="welcome" id="name" unselectable='on' onmousedown='return false;'>Walker Kennedy</h1>
+		<ul id="updates">
+			<h3>Updates:</h3>
+			<li>Project Updates! Just set up a blog to start updating you more frequently.</li>
+			<li>Working on compatability issues for Internet Explorer! Updates to follow!</li>
+			<li>New Project: Avec for Android Coming Soon! Click Projects for more.</li>
+			<li>Website is up!</li>
+		</ul>
+		<div id="footer">&copy; 2014 Walker Kennedy | Photo Taken By: <a href="http://saraheckinger.com/">Sarah Eckinger</a> | <a href="mailto:walker@walker-kennedy.com">Contact Me</a></div>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+ 		<script src="script.js"></script>
+ 		<script type="text/javascript">
+			$("#name").fitText(1, {minFontSize: '40px', maxFontSize: '100px'});
+			$("#welcomestart").fitText(1.5, {minFontSize: '20px', maxFontSize: '40px'});
+			$("#of").fitText(1.5, {minFontSize: '20px', maxFontSize: '40px'});
+		</script>
+	</body>
+</html>
